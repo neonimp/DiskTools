@@ -8,9 +8,41 @@
 #include <vector>
 #include <gsl/gsl>
 #include <Windows.h>
-#include <Disk.hpp>
 
 namespace DiskTools::Types {
+    enum class DiskToolsExceptionType {
+        Unknown,
+        NTError,
+        ENoEnt,
+    };
+
+    class DLLExport DiskToolsException : public std::exception {
+    public:
+        DiskToolsException(std::wstring message, uint32_t NTError, DiskToolsExceptionType exceptionType,
+                           std::wstring exceptionContext);
+
+        DiskToolsException(const std::wstring &message, uint32_t i, const std::wstring &pString);
+
+        [[nodiscard]] const wchar_t *whatW() const noexcept;
+
+        /**
+         * @brief On some cases we can attempt to get more information about the exception
+         * @return A string containing more information about the exception,
+         * or an empty string if no further information is available.
+         */
+        [[nodiscard]] const wchar_t *GetFurtherInfoW() const noexcept;
+
+        [[nodiscard]] bool HasFurtherInfo() const noexcept;
+
+    private:
+        std::wstring message;
+        std::wstring formattedNTError;
+        DiskToolsExceptionType exceptionType;
+        std::wstring exceptionContext;
+        uint32_t NTError;
+        std::wstring whatStr;
+    };
+
     struct DLLExport DiskExtent {
         uint64_t diskNumber;
         uint64_t startingOffset;

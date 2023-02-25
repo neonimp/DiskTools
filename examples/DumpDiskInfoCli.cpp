@@ -2,8 +2,6 @@
 #include <Utils.hpp>
 #include <iostream>
 #include <string>
-#include <Windows.h>
-#include <CommCtrl.h>
 
 
 int main() {
@@ -15,7 +13,7 @@ int main() {
         for (auto &volume: volumes) {
             std::wcout << DiskTools::Types::VolumeInfoToString(volume) << std::endl;
         }
-    } catch (DiskTools::DiskToolsException &e) {
+    } catch (DiskTools::Types::DiskToolsException &e) {
         std::wcout << std::endl << "Error: " << e.whatW() << std::endl;
         return 1;
     }
