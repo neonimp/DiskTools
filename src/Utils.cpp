@@ -3,8 +3,6 @@
 #include <utility>
 #include <vector>
 #include <format>
-#include <locale>
-#include <codecvt>
 
 namespace DiskTools {
     std::vector<Types::VolumeInfo> Utils::ListVolumes(bool stopOnException) {
@@ -180,9 +178,9 @@ namespace DiskTools {
     }
 
     DiskToolsException::DiskToolsException(std::wstring message, uint32_t NTError,
-                                                      DiskToolsExceptionType exceptionType,
-                                                      std::wstring exceptionContext) : exceptionType(exceptionType),
-                                                                                       NTError(NTError) {
+                                           DiskToolsExceptionType exceptionType,
+                                           std::wstring exceptionContext) : exceptionType(exceptionType),
+                                                                            NTError(NTError) {
         // Set the message
         this->message = std::move(message);
         // Set the formatted error
@@ -200,7 +198,7 @@ namespace DiskTools {
     }
 
     DiskToolsException::DiskToolsException(const std::wstring &message, uint32_t i,
-                                                      const std::wstring &pString)
+                                           const std::wstring &pString)
             : message(message), exceptionContext(pString), NTError(i) {
         this->formattedNTError = Utils::FormatNTErrorW(MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT), i);
         this->exceptionType = DiskToolsExceptionType::NTError;

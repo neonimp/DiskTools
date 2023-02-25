@@ -28,7 +28,9 @@ namespace DiskTools {
         };
 
         DLLExport std::wstring VolumeInfoToString(VolumeInfo &volumeInfo);
+
         DLLExport std::wstring DiskExtentToString(DiskExtent &diskExtent);
+
         DLLExport std::wstring DiskExtentToString(std::vector<DiskExtent> diskExtents);
     }
 

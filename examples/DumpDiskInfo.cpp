@@ -18,7 +18,7 @@ int main() {
     std::wcout << "listing: " << DiskTools::Utils::CountVolumes() << " volumes" << std::endl;
     try {
         auto volumes = DiskTools::Utils::ListVolumes(false);
-        for (auto &volume : volumes) {
+        for (auto &volume: volumes) {
             std::wcout << DiskTools::Types::VolumeInfoToString(volume) << std::endl;
         }
     } catch (DiskTools::DiskToolsException &e) {

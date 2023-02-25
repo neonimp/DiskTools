@@ -105,7 +105,8 @@ void DiskTools::Disk::QueryDiskGeometry() {
     while (true) {
         // Get the drive layout
         if (!DeviceIoControl(this->hDrive, IOCTL_DISK_GET_DRIVE_LAYOUT_EX, nullptr, 0, driveLayout,
-                             sizeof(DRIVE_LAYOUT_INFORMATION_EX) + driveLayout->PartitionCount * sizeof(PARTITION_INFORMATION_EX),
+                             sizeof(DRIVE_LAYOUT_INFORMATION_EX) +
+                             driveLayout->PartitionCount * sizeof(PARTITION_INFORMATION_EX),
                              nullptr, &this->overlapped)) {
             this->lastNTError = GetLastError();
         }
@@ -127,7 +128,8 @@ void DiskTools::Disk::QueryDiskGeometry() {
     // Get the disk length
     this->totalSize = this->diskGeometry.DiskSize.QuadPart;
     // Get the free size
-    this->freeSize = driveLayout->PartitionStyle == PARTITION_STYLE_MBR ? driveLayout->Mbr.Signature : driveLayout->Gpt.DiskId.Data1;
+    this->freeSize = driveLayout->PartitionStyle == PARTITION_STYLE_MBR ? driveLayout->Mbr.Signature
+                                                                        : driveLayout->Gpt.DiskId.Data1;
 }
 
 DiskTools::Disk::Disk() {
