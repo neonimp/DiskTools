@@ -46,6 +46,6 @@ add_dependencies(${PROJECT_N_FQN} GSL)
 include_directories(${GSL_DIR}/include)
 
 # Add example usage
-add_executable(DumpDiskInfo ${PROJECT_SOURCE_DIR}/examples/DumpDiskInfo.cpp)
+add_executable(DumpDiskInfo ${PROJECT_SOURCE_DIR}/examples/DumpDiskInfoCli.cpp)
 target_link_libraries(DumpDiskInfo ${PROJECT_N})
 target_include_directories(DumpDiskInfo PRIVATE ${INCLUDES})

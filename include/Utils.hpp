@@ -9,30 +9,9 @@
 #include <gsl/gsl>
 #include <Windows.h>
 #include <Disk.hpp>
+#include <Types.hpp>
 
 namespace DiskTools {
-
-    namespace Types {
-        struct DLLExport DiskExtent {
-            uint64_t diskNumber;
-            uint64_t startingOffset;
-            uint64_t extentLength;
-        };
-
-        struct DLLExport VolumeInfo {
-            std::wstring volumeName;
-            std::wstring volumePath;
-            std::wstring drivePath;
-            uint32_t extentCount{};
-            DiskExtent *extents{};
-        };
-
-        DLLExport std::wstring VolumeInfoToString(VolumeInfo &volumeInfo);
-
-        DLLExport std::wstring DiskExtentToString(DiskExtent &diskExtent);
-
-        DLLExport std::wstring DiskExtentToString(std::vector<DiskExtent> diskExtents);
-    }
 
     /**
      * @brief This namespace contains utility functions for the DiskTools library that are not part of the Disk class.

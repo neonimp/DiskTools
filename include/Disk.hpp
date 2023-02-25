@@ -2,14 +2,15 @@
 #if !defined(DISKINFO_H_)
 #define DISKINFO_H_
 #define DLLExport __declspec(dllexport)
-
 #include <cstdint>
 #include <string>
 #include <vector>
 #include <gsl/gsl>
 #include <Windows.h>
+#include <Types.hpp>
 
 namespace DiskTools {
+
     enum class DiskType {
         Unknown,
         Removable,
@@ -61,6 +62,8 @@ namespace DiskTools {
         OVERLAPPED overlapped{};
         DWORD lastNTError;
         HANDLE hDrive{};
+        std::vector<Types::PartitionInfo> partitions;
+        std::vector<Types::VolumeInfo> volumes;
 
         void GetHandle();
 
