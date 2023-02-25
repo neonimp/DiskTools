@@ -1,0 +1,51 @@
+cmake_minimum_required(VERSION 3.10)
+
+set(PROJECT_N DiskTools)
+project(${PROJECT_N} VERSION 1.0.0)
+set(PROJECT_N_FQN ${PROJECT_N}-${PROJECT_VERSION})
+
+set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD_REQUIRED True)
+
+file(GLOB_RECURSE SRCS ${PROJECT_SOURCE_DIR}/src/*.cpp)
+
+# a macro that gets all of the header containing directories. 
+MACRO(header_directories return_list includes_base_folder extention)
+    FILE(GLOB_RECURSE new_list ${includes_base_folder}/*.${extention})
+    SET(dir_list "")
+    FOREACH (file_path ${new_list})
+        GET_FILENAME_COMPONENT(dir_path ${file_path} PATH)
+        SET(dir_list ${dir_list} ${dir_path})
+    ENDFOREACH ()
+    LIST(REMOVE_DUPLICATES dir_list)
+    SET(${return_list} ${dir_list})
+ENDMACRO()
+
+# using said macro.
+header_directories(INCLUDES ${PROJECT_SOURCE_DIR}/include/ hpp)
+
+message("src files:")
+foreach (file ${SRCS})
+    message(STATUS ${file})
+endforeach ()
+
+message("include directories:")
+foreach (dir ${INCLUDES})
+    message(STATUS ${dir})
+endforeach ()
+
+add_library(${PROJECT_N_FQN} SHARED ${SRCS})
+add_library(${PROJECT_N} ALIAS ${PROJECT_N_FQN})
+target_include_directories(${PROJECT_N_FQN} PRIVATE ${INCLUDES})
+target_link_libraries(${PROJECT_N_FQN} PRIVATE GSL)
+
+# Add GSL
+set(GSL_DIR ${PROJECT_SOURCE_DIR}/vendor/gsl)
+add_subdirectory(${GSL_DIR})
+add_dependencies(${PROJECT_N_FQN} GSL)
+include_directories(${GSL_DIR}/include)
+
+# Add example usage
+add_executable(DumpDiskInfo ${PROJECT_SOURCE_DIR}/examples/DumpDiskInfo.cpp)
+target_link_libraries(DumpDiskInfo ${PROJECT_N})
+target_include_directories(DumpDiskInfo PRIVATE ${INCLUDES})
